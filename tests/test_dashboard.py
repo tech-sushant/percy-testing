@@ -45,3 +45,17 @@ def test_404_page_for_invalid_route(driver):
     driver.get(f"{BASE_URL}/invalid-route")
     
     assert wait_for(driver, (By.XPATH, "//*[contains(text(), '404')]")).is_displayed()
+
+@pytest.mark.dashboard
+def test_navbar_and_user_menu_are_visible_after_login(driver):
+    """Ensures the main navbar logo and the user menu button are visible after logging in."""
+    # 1. Log in as any user
+    login_as_superuser(driver)
+    
+    # 2. Assert the main logo in the navbar is displayed
+    logo = wait_for(driver, Navbar.NAVBAR_LOGO) # Assumes locator for the logo
+    assert logo.is_displayed()
+    
+    # 3. Assert the user menu button is displayed
+    user_menu = wait_for(driver, Navbar.USER_MENU)
+    assert user_menu.is_displayed()

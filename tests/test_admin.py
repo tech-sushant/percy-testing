@@ -293,3 +293,15 @@ def test_users_list_is_paginated(driver):
         wait_for_toast_to_disappear(driver)
     assert wait_for(driver, (By.XPATH, "//button[text()='2']")).is_displayed()
     
+@pytest.mark.admin
+def test_add_user_button_is_visible_for_superuser(driver):
+    """Checks that the 'Add User' button is visible for a logged-in superuser."""
+    # 1. Log in as a superuser
+    login_as_superuser(driver)
+    
+    # 2. Navigate to the admin page
+    driver.get(f"{BASE_URL}/admin")
+    
+    # 3. Find the 'Add User' button and assert it is displayed
+    add_user_button = wait_for(driver, Admin.ADD_USER_BUTTON)
+    assert add_user_button.is_displayed()

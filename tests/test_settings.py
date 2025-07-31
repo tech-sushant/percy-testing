@@ -180,3 +180,17 @@ def test_danger_zone_tab_not_visible_for_superuser(driver):
     driver.get(f"{BASE_URL}/settings")
     with pytest.raises(TimeoutException):
         wait_for(driver, Settings.DANGER_ZONE_TAB, timeout=2)
+
+@pytest.mark.settings
+def test_settings_tabs_are_visible(driver):
+    """Verifies that all main tabs are visible on the user settings page."""
+    # 1. Log in
+    login_as_superuser(driver)
+    
+    # 2. Navigate to the settings page
+    driver.get(f"{BASE_URL}/settings")
+    
+    # 3. Assert each primary tab is displayed
+    assert wait_for(driver, Settings.MY_PROFILE_TAB).is_displayed()
+    assert wait_for(driver, Settings.PASSWORD_TAB).is_displayed()
+    assert wait_for(driver, Settings.APPEARANCE_TAB).is_displayed()

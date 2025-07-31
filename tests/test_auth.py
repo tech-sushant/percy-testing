@@ -166,3 +166,17 @@ def test_access_login_when_already_logged_in(driver):
     driver.get(f"{BASE_URL}/login")
     
     wait_for_url_to_be(driver, f"{BASE_URL}/")
+
+@pytest.mark.auth
+def test_login_page_has_navigation_links(driver):
+    """Checks if the 'Sign Up' and 'Forgot Password?' links are visible on the login page."""
+    # 1. Navigate to the login page
+    driver.get(f"{BASE_URL}/login")
+    
+    # 2. Find and assert the "Forgot Password?" link is displayed
+    forgot_password_link = wait_for(driver, Auth.FORGOT_PASSWORD_LINK)
+    assert forgot_password_link.is_displayed()
+    
+    # 3. Find and assert the "Sign Up" link is displayed
+    signup_link = wait_for(driver, Auth.SIGNUP_LINK)
+    assert signup_link.is_displayed()

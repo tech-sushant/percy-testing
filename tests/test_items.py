@@ -30,6 +30,19 @@ def test_add_item_dialog_opens_and_closes(driver):
     assert wait_for_invisibility(driver, General.DIALOG_TITLE)
 
 @pytest.mark.items
+def test_items_page_heading_is_visible(driver):
+    """Checks if the main 'Items Management' heading is present on the items page."""
+    # 1. Log in
+    login_as_superuser(driver)
+    
+    # 2. Navigate to the items page
+    driver.get(f"{BASE_URL}/items")
+    
+    # 3. Find the main heading and assert its text
+    heading = wait_for(driver, (By.TAG_NAME, "h2"))
+    assert heading.text == "Items Management"
+
+@pytest.mark.items
 def test_add_item_with_valid_data(driver):
     login_as_superuser(driver)
     driver.get(f"{BASE_URL}/items")
